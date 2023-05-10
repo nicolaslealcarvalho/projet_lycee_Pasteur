@@ -4,6 +4,6 @@ ce projet consiste en une repartition des eleve de seconde en groupe associer a 
 
 # participant au projet
 
-Leal Carvalho Nicolas
-Alves Rachel
+* Leal Carvalho Nicolas
+* Alves Rachel
 
