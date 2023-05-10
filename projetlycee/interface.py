@@ -13,7 +13,7 @@ class interfaceJournéePre(Frame):
         super().__init__(self.app)
 
         self.app.geometry("700x420")
-        self.bg = PhotoImage(file = "comp\lycée.png")
+        self.bg = PhotoImage(file = "projetlycee\comp\lycée.png")
 
         self.choix = None
         self.core = core()

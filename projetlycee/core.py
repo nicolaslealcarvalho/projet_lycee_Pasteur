@@ -26,6 +26,15 @@ class core():
             if '1générale' not in i:
                 del i
 
+        self.dicoEleve = {}
+        for i in self.listEleve[:-1]:
+            if i[8] != None :
+                self.dicoEleve[str(i[0])] = dict()
+                self.dicoEleve[str(i[0])]["spé1"] = i[8]
+                self.dicoEleve[str(i[0])]["spé2"] = i[9]
+                self.dicoEleve[str(i[0])]["spé3"] = i[10]
+                self.dicoEleve[str(i[0])]["spé4"] = i[11]
+
 
     def setnbprof(self,name,value):
         # regarde si la spe est deja existente sinon la rajoute a la liste
@@ -72,13 +81,54 @@ class core():
             setattr(self, attr_nbhoraire, heuremin)
             print("nbHeure: " + str(getattr(self,attr_nbhoraire)))
 
-            # creation des groupe associter a chaque spe
+            # creation des groupe associer a chaque spé
             for j in range(heuremin):
                 for p in range(int(nbProfParSpe)):
-                    attr_nbgroupetotal = f"groupe{p}{j}{i}"
+                    attr_nbgroupetotal = f"groupeProf{p}Heure{j}Spe{i}"
                     setattr(self, attr_nbgroupetotal, None)
 
             #print(int(18.7)!=(18.7))
+
+            self.repartition()
+        
+    def repartition(self):
+        for i in self.dicoEleve.items():
+            for j in range(1,4):
+                nomSpé = i[1][f"spé{j}"]
+                print (i[1])
+
+                attr_nb = f"nbProf{nomSpé}"
+                attr_taillegroupe = f"taillegroupe{nomSpé}"
+                attr_nbhoraire = f"nbHoraire{nomSpé}"
+
+                nbProfSpé = getattr(self, attr_nb)
+                tailleGroupeSpé = getattr(self, attr_taillegroupe)
+                nbHoraireSpé = getattr(self, attr_nbhoraire)
+
+                k  = 0
+                l = j-1
+                fin = False
+                while k != nbProfSpé and fin != True:
+                    while l != nbHoraireSpé and fin != True:
+                        attr_groupefinale = f"groupeProf{k}Heure{l}Spe{nomSpé}"
+                        groupefinale = getattr(self, attr_groupefinale)
+                        if len(groupefinale) != tailleGroupeSpé :
+                            getattr(self, attr_groupefinale).append(i[0])
+                        print(groupefinale)
+                        l += 1
+                    k += 1
+
+
+
+
+    def decalage (self,eleve,decal):
+        if decal == 0 :
+            self.dicoEleve[eleve]["spé1"],self.dicoEleve[eleve]["spé2"],self.dicoEleve[eleve]["spé3"],self.dicoEleve[eleve]["spé4"] = self.dicoEleve[eleve]["spé2"],self.dicoEleve[eleve]["spé3"],self.dicoEleve[eleve]["spé4"],self.dicoEleve[eleve]["spé1"]
+        elif decal == 1 :
+            self.dicoEleve[eleve]["spé2"],self.dicoEleve[eleve]["spé3"],self.dicoEleve[eleve]["spé4"] = self.dicoEleve[eleve]["spé3"],self.dicoEleve[eleve]["spé4"],self.dicoEleve[eleve]["spé2"]
+        elif decal == 2 :
+            self.dicoEleve[eleve]["spé3"],self.dicoEleve[eleve]["spé4"] = self.dicoEleve[eleve]["spé4"],self.dicoEleve[eleve]["spé3"]
+
 
     
 
